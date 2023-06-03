@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface ProductService {
 
-    int  saveProduct(Product p);
+    int saveProduct(Product p);
+
     List<Product> getAllProducts();
 
     Product searchOneProduct(int id);
@@ -17,5 +18,8 @@ public interface ProductService {
 
     boolean isProductExist(int id);
 
+    void updateProductCodeById(String productCode, int id);
 
+
+    void updateProductCodeByCost(int id, Double prodCost);
 }

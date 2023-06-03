@@ -30,14 +30,12 @@ public class CustomExceptionHandler {
     //--->Message comes in JSON format
 
     @ExceptionHandler(productNotFoundException.class)
-    public ResponseEntity<ErrorData> handleProductNotFoundException(productNotFoundException pne)
-    {
+    public ResponseEntity<ErrorData> handleProductNotFoundException(productNotFoundException pne) {
         return new ResponseEntity<>(new ErrorData(pne.getMessage(), new Date().toString(), "Product"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorData> Exception(Exception e)
-    {
+    public ResponseEntity<ErrorData> Exception(Exception e) {
         return new ResponseEntity<>(new ErrorData(Arrays.toString(e.getStackTrace()), new Date().toString(), "Product"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

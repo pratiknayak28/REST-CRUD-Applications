@@ -11,11 +11,11 @@ public class Product {
 
     @Id
     @GeneratedValue
-    private Integer prodId ;
+    private Integer prodId;
 
-    private String prodCode ;
-    private Double prodCost ;
+    private String prodCode;
+    private Double prodCost;
 
-    private Double prodGst ;
-    private Double prodDisc ;
+    private Double prodGst;
+    private Double prodDisc;
 }

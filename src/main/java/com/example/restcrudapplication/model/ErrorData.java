@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ErrorData {
 
-	private String message;
-	private String datetime;
-	private String module;
+    private String message;
+    private String datetime;
+    private String module;
 }

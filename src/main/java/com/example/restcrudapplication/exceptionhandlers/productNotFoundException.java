@@ -1,12 +1,13 @@
 package com.example.restcrudapplication.exceptionhandlers;
 
-public class productNotFoundException extends RuntimeException{
+public class productNotFoundException extends RuntimeException {
 
 
-    productNotFoundException(){
+    productNotFoundException() {
         super();
     }
-    public productNotFoundException(String msg){
+
+    public productNotFoundException(String msg) {
         super(msg);
     }
 }
