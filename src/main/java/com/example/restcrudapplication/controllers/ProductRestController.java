@@ -19,27 +19,60 @@ public class ProductRestController {
 
     @PostMapping
     public ResponseEntity<String> saveProduct(@RequestBody Product product) {
-        int p = service.saveProduct(product);
-        return new ResponseEntity<>("Product Saved " + p, HttpStatus.OK);
+
+        ResponseEntity<String> resp;
+        try {
+            int p = service.saveProduct(product);
+            resp = new ResponseEntity<>("Product Saved with id :" + p, HttpStatus.CREATED);
+        } catch (Exception e) {
+            resp = new ResponseEntity<>("Unable to process save product", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
+        return resp;
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> list = service.getAllProducts();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<?> getAllProducts() {
+        ResponseEntity<?> resp;
+        try {
+            List<Product> list = service.getAllProducts();
+            resp = new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            resp = new ResponseEntity<>("Unable to get all products", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
+        return resp;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getOneProduct(@PathVariable int id) {
-        Product prod = service.searchOneProduct(id);
-        return new ResponseEntity<>(prod, HttpStatus.OK);
+    public ResponseEntity<?> getOneProduct(@PathVariable int id) {
 
+        ResponseEntity<?> resp;
+        try {
+            Product prod = service.searchOneProduct(id);
+            return new ResponseEntity<>(prod, HttpStatus.OK);
+        } catch (productNotFoundException p) {
+            throw p;
+        } catch (Exception e) {
+            resp = new ResponseEntity<>("Unable to search the product", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
+        return resp;
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable int id) {
-        service.deleteProductById(id);
-        return new ResponseEntity<>("The product with id " + id + " is deleted", HttpStatus.OK);
+        ResponseEntity<String> resp;
+        try {
+            service.deleteProductById(id);
+            return new ResponseEntity<>("The product with id " + id + " is deleted", HttpStatus.OK);
+        } catch (productNotFoundException p) {
+            throw p;
+        } catch (Exception e) {
+            resp = new ResponseEntity<>("Unable to delete the product", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
+        return resp;
     }
 
     // FOR Complete Data update use PUT , for partial data update use PATCH -> good practice
@@ -48,7 +81,7 @@ public class ProductRestController {
         if (service.isProductExist(id)) {
             prod.setProdId(id);
             service.updateProductById(prod);
-            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.OK);
+            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.RESET_CONTENT);
         } else {
             throw new productNotFoundException("Product " + id + " does not exist to update !");
         }
@@ -59,7 +92,7 @@ public class ProductRestController {
 
         if (service.isProductExist(id)) {
             service.updateProductCodeById(code, id);
-            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.OK);
+            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.PARTIAL_CONTENT);
         } else {
             throw new productNotFoundException("Product " + id + " does not exist to update !");
         }
@@ -70,7 +103,7 @@ public class ProductRestController {
 
         if (service.isProductExist(id)) {
             service.updateProductCodeByCost(id, prodCost);
-            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.OK);
+            return new ResponseEntity<>("The product with id " + id + " updated", HttpStatus.PARTIAL_CONTENT);
         } else {
             throw new productNotFoundException("Product " + id + " does not exist to update !");
         }
