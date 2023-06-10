@@ -4,5 +4,5 @@
 1. DB used is mysql.
 2. Exceptions handled.
 3. Implemented Logging
-4. Implemented API Documentation using Swagger (IN PROCESS)
+4. Implemented API Documentation using Swagger (open API V3)
 5. Implemented Unit Tests
