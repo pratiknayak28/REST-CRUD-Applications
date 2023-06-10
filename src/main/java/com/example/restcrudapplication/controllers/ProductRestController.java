@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/rest-apis")
 public class ProductRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductRestController.class);
     @Autowired
     private ProductService service;
 
-    @PostMapping
+    @PostMapping("/addProduct")
     public ResponseEntity<String> saveProduct(@RequestBody Product product) {
 
         LOG.info("Entered into saveProduct()");
@@ -37,7 +37,7 @@ public class ProductRestController {
         return resp;
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public ResponseEntity<?> getAllProducts() {
         ResponseEntity<?> resp;
         LOG.info("inside getAllProducts() method");
@@ -53,7 +53,7 @@ public class ProductRestController {
         return resp;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<?> getOneProduct(@PathVariable int id) {
 
         ResponseEntity<?> resp;
@@ -73,7 +73,7 @@ public class ProductRestController {
         return resp;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable int id) {
         ResponseEntity<String> resp;
         LOG.info("inside deleteProduct() method");
@@ -93,7 +93,7 @@ public class ProductRestController {
     }
 
     // FOR Complete Data update use PUT , for partial data update use PATCH -> good practice
-    @PutMapping("/{id}")
+    @PutMapping("/updateProduct/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestBody Product prod) {
         LOG.info("inside updateProduct() method");
         if (service.isProductExist(id)) {
@@ -109,7 +109,7 @@ public class ProductRestController {
 
     }
 
-    @PatchMapping("/{id}/{code}")
+    @PatchMapping("/updateProduct/{id}/{code}")
     public ResponseEntity<String> updateProductCode(@PathVariable int id, @PathVariable String code) {
         LOG.info("inside updateProductCode() method");
         if (service.isProductExist(id)) {
@@ -122,8 +122,8 @@ public class ProductRestController {
         }
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> updateProductCost(@PathVariable int id, @RequestParam(name = "cost") Double prodCost) {
+    @PatchMapping("updateProductCost/{id}/{prodCost}")
+    public ResponseEntity<String> updateProductCost(@PathVariable int id, @PathVariable Double prodCost) {
         LOG.info("inside updateProductCost() method");
         if (service.isProductExist(id)) {
             service.updateProductCodeByCost(id, prodCost);
