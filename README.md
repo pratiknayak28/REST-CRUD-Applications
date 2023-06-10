@@ -5,3 +5,4 @@
 2. Exceptions handled.
 3. Implemented Logging
 4. Implemented API Documentation using Swagger (IN PROCESS)
+5. Implemented Unit Tests
